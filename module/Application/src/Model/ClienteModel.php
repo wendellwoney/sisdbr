@@ -75,4 +75,16 @@ class ClienteModel implements IModel
         }
     }
 
+    public function graficoClienteCadastrado()
+    {
+        $arrayClienteTotal = [];
+        $clientes = $this->getList();
+
+        foreach ($clientes as $cliente) {
+            @$arrayClienteTotal[$cliente->getDataCadastro()->format('M')] += 1;
+        }
+
+        return $arrayClienteTotal;
+    }
+
 }

@@ -13,6 +13,7 @@ use Entity\Cliente;
 use Util\Funcao;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 class ClienteController extends AbstractActionController
@@ -124,6 +125,23 @@ class ClienteController extends AbstractActionController
         }
         $view->setVariable('cliente', $clienteModel->get($this->params()->fromRoute('id')));
         return $view;
+    }
+
+    public function jsonAction()
+    {
+        $clienteModel = new ClienteModel($this->entityManager);
+        $cadastros = $clienteModel->graficoClienteCadastrado();
+        $label = array();
+        $data = array();
+        foreach ($cadastros as $mes => $valor) {
+            $label[] = $mes;
+            $data[] = $valor;
+        }
+
+        $arra['label'] = $label;
+        $arra['data'] = $data;
+
+        echo json_encode($arra);exit;
     }
 
 }

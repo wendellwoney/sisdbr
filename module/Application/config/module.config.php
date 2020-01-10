@@ -100,6 +100,16 @@ return [
                         'action'     => 'remover',
                     ],
                 ],
+            ],
+            'grafico' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/grafico',
+                    'defaults' => [
+                        'controller' => Controller\ClienteController::class,
+                        'action'     => 'json',
+                    ],
+                ],
             ]
         ],
     ],
