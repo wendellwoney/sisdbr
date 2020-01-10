@@ -202,7 +202,7 @@
                                                                         </h5>
                                                                         </p>
                                                                         <a href="<?= $this->url('EnderecoEdita', ['clienteid' => $this->cliente->getId(),'id' => $endereco->getId()])?>" class="btn btn-primary">Editar</a>
-                                                                        <a href="#" class="btn btn-danger">Remover</a>
+                                                                        <a href="#" onclick="remover('<?= $endereco->getNome() ?>', <?= $endereco->getId() ?>, <?= $this->cliente->getId() ?>)" class="btn btn-danger">Remover</a>
                                                                     </div>
                                                                 </div>
                                                                 <?php endforeach;?>
@@ -242,3 +242,13 @@
     </div>
 </div>
 <script src="<?= $this->basePath('public/js/mascara.js'); ?>"></script>
+<script>
+    function remover(nome, id, clienteid) {
+        var r = confirm("Deseja remover " + nome + "?");
+        if (r == true) {
+            window.location.assign("/sisdbr/endereco/cliente/" + clienteid + "/remove/" + id);
+        } else {
+            return false;
+        }
+    }
+</script>

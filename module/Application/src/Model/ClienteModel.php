@@ -69,7 +69,6 @@ class ClienteModel implements IModel
             $this->entityManager->remove($cliente);
             $this->entityManager->flush();
             $this->entityManager->commit();
-            //$this->entityManager->refresh($cliente);
             return 'Cliente removido!';
         } catch (\Exception $e) {
             throw new \Exception('Erro ao remover o cliente, por favor tente novamente mais tarde!');

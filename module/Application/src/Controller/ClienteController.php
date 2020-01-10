@@ -126,5 +126,4 @@ class ClienteController extends AbstractActionController
         return $view;
     }
 
-
 }

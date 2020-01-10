@@ -105,4 +105,25 @@ class EnderecoController extends AbstractActionController
 
         return $view;
     }
+
+    public function removerAction()
+    {
+        $view = new ViewModel();
+        $enderecoModel = new EnderecoModel($this->entityManager);
+        try {
+            $endereco = $enderecoModel->get($this->params()->fromRoute('id'));
+            if (!empty($endereco)) {
+                $enderecoModel->delete($this->params()->fromRoute('id'));
+                $this->flashMessenger()->addMessage('Endereço Removido');
+                $this->redirect()->toRoute('ClienteEditar', ['id' => $this->params()->fromRoute('clienteid'), 'endereco' => true]);
+            }else{
+                $this->redirect()->toRoute('ClienteEditar', ['id' => $this->params()->fromRoute('clienteid'), 'endereco' => true]);
+            }
+        } catch (\Exception $e) {
+            $view->setVariable('msge', $e->getMessage());
+        }
+
+        //$view->setTerminal(true);
+        return $view;
+    }
 }

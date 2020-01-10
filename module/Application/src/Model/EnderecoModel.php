@@ -65,7 +65,16 @@ class EnderecoModel implements IModel
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        try {
+            $endereco = $this->get($id);
+            $this->entityManager->beginTransaction();
+            $this->entityManager->remove($endereco);
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+            return 'Endereço removido!';
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao remover o endereço, por favor tente novamente mais tarde!');
+        }
     }
 
 }

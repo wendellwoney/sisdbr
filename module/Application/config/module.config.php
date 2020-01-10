@@ -90,6 +90,16 @@ return [
                         'action'     => 'edita',
                     ],
                 ],
+            ],
+            'EnderecoRemove' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/endereco/cliente/:clienteid/remove/:id[/]',
+                    'defaults' => [
+                        'controller' => Controller\EnderecoController::class,
+                        'action'     => 'remover',
+                    ],
+                ],
             ]
         ],
     ],
