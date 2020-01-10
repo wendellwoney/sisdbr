@@ -8,6 +8,7 @@
 namespace Application;
 
 use Application\Factory\ClienteControllerFactory;
+use Application\Factory\EnderecoControllerFactory;
 use Application\Factory\IndexControllerFactory;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Zend\Router\Http\Literal;
@@ -59,6 +60,36 @@ return [
                         'action'     => 'cadastro',
                     ],
                 ],
+            ],
+            'ClienteEditar' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/cliente/edita/:id[/][:endereco]',
+                    'defaults' => [
+                        'controller' => Controller\ClienteController::class,
+                        'action'     => 'edita',
+                    ],
+                ],
+            ],
+            'EnderecoCadastro' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/endereco/cliente/:id[/]',
+                    'defaults' => [
+                        'controller' => Controller\EnderecoController::class,
+                        'action'     => 'cadastro',
+                    ],
+                ],
+            ],
+            'EnderecoEdita' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/endereco/cliente/:clienteid/edita/:id[/]',
+                    'defaults' => [
+                        'controller' => Controller\EnderecoController::class,
+                        'action'     => 'edita',
+                    ],
+                ],
             ]
         ],
     ],
@@ -66,6 +97,7 @@ return [
         'factories' => [
             Controller\IndexController::class => IndexControllerFactory::class,
             Controller\ClienteController::class => ClienteControllerFactory::class,
+            Controller\EnderecoController::class => EnderecoControllerFactory::class,
         ],
     ],
     'view_manager' => [

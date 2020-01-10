@@ -35,14 +35,32 @@ class EnderecoModel implements IModel
             );
     }
 
-    public function create($object)
+    public function create($endereco)
     {
-        // TODO: Implement create() method.
+        try {
+            $this->entityManager->beginTransaction();
+            $this->entityManager->persist($endereco);
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+            $this->entityManager->refresh($endereco);
+            return 'Endereço cadastrado';
+        } catch (\Exception $e) {
+            throw new \Exception('Erro no Cadastro do endereço, por favor tente novamente mais tarde!');
+        }
     }
 
-    public function update($object)
+    public function update($endereco)
     {
-        // TODO: Implement update() method.
+        try {
+            $this->entityManager->beginTransaction();
+            $this->entityManager->merge($endereco);
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+            return 'Endereço editado com sucesso';
+        } catch (\Exception $e) {
+            echo $e->getMessage();exit;
+            throw new \Exception('Erro ao editar o endereço, por favor tente novamente mais tarde!');
+        }
     }
 
     public function delete($id)

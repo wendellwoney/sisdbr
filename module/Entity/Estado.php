@@ -33,7 +33,7 @@ class Estado
 
     /**
      * Um estado tem varias cidades. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="Cidade", mappedBy="estados")
+     * @ORM\OneToMany(targetEntity="Cidade", mappedBy="estado")
      */
     private $cidades;
 

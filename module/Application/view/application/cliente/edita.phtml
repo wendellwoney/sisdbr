@@ -1,0 +1,244 @@
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <div class="container-fluid">
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="<?= $this->url('ClienteLista') ?>">Clientes </a>
+    </div>
+</nav>
+<div class="header bg-gradient-primary pb-5 pt-6 pt-md-0">
+</div>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="">
+            <div class="row mt-5">
+                <div class="col-xl-12 mb-5 mb-xl-0">
+                    <?php if ($this->messages): ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php foreach ($this->messages as $message):?>
+                            <strong>Sucesso!</strong> <?= $message; ?>
+                            <?php endforeach;?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($this->msgs): ?>
+                        <div class="alert alert-success" role="alert">
+                            <strong>Sucesso!</strong> <?= $this->msgs; ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($this->msge): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Erro!</strong> <?= $this->msge; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col col-md-12">
+                                    <h3 class="mb-0"><span class="fa fa-box"></span> Editar Cliente</h3>
+                                </div>
+                            </div>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="id" id="id" value="<?= $this->cliente->getId();?>">
+                                <div class="row">
+                                    <p></p>
+                                    <div class="col col-md-12">
+                                        </br>
+                                        <nav>
+                                            <div class="nav-wrapper">
+                                                <ul class="nav nav-pills nav-fill flex-column flex-md-row"
+                                                    id="tabs-icons-text" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link mb-sm-3 mb-md-0 <?php if (!isset($this->actend)): ?>active<?php endif; ?>"
+                                                           id="tabs-icons-text-1-tab" data-toggle="tab"
+                                                           href="#tabs-icons-text-1" role="tab"
+                                                           aria-controls="tabs-icons-text-1" aria-selected="<?php if (!isset($this->actend)): ?> true <?php else:?> false <?php endif; ?>"><i
+                                                                    class="ni ni-diamond mr-2"></i>Dados</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link mb-sm-3 mb-md-0 <?php if (isset($this->actend)): ?>active<?php endif; ?>"
+                                                           id="tabs-icons-text-2-tab"
+                                                           data-toggle="tab" href="#tabs-icons-text-2" role="tab"
+                                                           aria-controls="tabs-icons-text-2" aria-selected="<?php if (isset($this->actend)): ?> true <?php else:?> false <?php endif; ?>"
+                                                           title="O endereço será habilitado após o cadastro do cliente"><i
+                                                                    class="fa fa-address-book mr-2"></i>Endereços</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card shadow">
+                                                <div class="card-body">
+                                                    <div class="tab-content" id="myTabContent">
+                                                        <div class="tab-pane fade <?php if (!isset($this->actend)): ?>show active<?php endif; ?>" id="tabs-icons-text-1"
+                                                             role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                                            <div class="row">
+                                                                <div class="col col-md-1">
+                                                                    <?php
+                                                                    if (!empty($this->cliente->getFoto())):
+                                                                        ?>
+                                                                        <img style="width: 100px; height: 100px;"
+                                                                             src="<?= $this->basePath('public/img/cliente/' . $this->cliente->getFoto()) ?>"
+                                                                             class="avatar rounded-circle">
+                                                                    <?php else: ?>
+                                                                        <span style="width: 100px; height: 100px;"
+                                                                              class="fa fa-user avatar rounded-circle"></span>
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                                <div class="col col-md-11" style="left: 4%">
+                                                                        <h1><?= $this->cliente->getNome()?></h1>
+                                                                        <?= $this->cliente->getEmail()?></br>
+                                                                        <?= $this->cliente->getTelefoneCelular()?>
+                                                                </div>
+                                                            </div>
+                                                            </br>
+                                                            <div class="row">
+                                                                <div class="col col-md-6">
+                                                                    <div class="p-2">
+                                                                        Nome Completo <span class="text-red">*</span>
+                                                                        <div class="form-group">
+                                                                            <input required maxlength="100" type="text"
+                                                                                   class="form-control"
+                                                                                   id="nome" name="nome"
+                                                                                   placeholder="Nome do Cliente"
+                                                                                   value="<?= $this->cliente->getNome() ?>">
+                                                                        </div>
+                                                                        Apelido
+                                                                        <div class="form-group">
+                                                                            <input maxlength="30" type="text"
+                                                                                   class="form-control"
+                                                                                   id="apelido" name="apelido"
+                                                                                   placeholder="Apelido do cliente"
+                                                                                   value="<?= $this->cliente->getApelido() ?>">
+                                                                        </div>
+                                                                        Sexo <span class="text-red">*</span>
+                                                                        <div class="form-group">
+                                                                            <select name="sexo" id="sexo"
+                                                                                    class="form-control" required>
+                                                                                <option <?php if ($this->cliente->getSexo() == 'M'): ?> selected <?php endif; ?>
+                                                                                        value="M">Masculino
+                                                                                </option>
+                                                                                <option <?php if ($this->cliente->getSexo() == 'F'): ?> selected <?php endif; ?>
+                                                                                        value="F">Feminino
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                        Telefone Celular <span class="text-red">*</span>
+                                                                        <div class="form-group">
+                                                                            <input required maxlength="14" type="text"
+                                                                                   class="form-control celular"
+                                                                                   id="telefone_celular"
+                                                                                   name="telefone_celular"
+                                                                                   placeholder="Telefone do Cliente"
+                                                                                   value="<?= $this->cliente->getTelefoneCelular() ?>">
+                                                                        </div>
+                                                                        Observações
+                                                                        <div class="form-group">
+                                                <textarea name="observacao" id="observacao" class="form-control"
+                                                          rows="3"
+                                                          placeholder="Observações do cliente"><?= $this->cliente->getObservacao() ?></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col col-md-6">
+                                                                    <div class="p-2">
+                                                                        E-mail <span class="text-red">*</span>
+                                                                        <div class="form-group">
+                                                                            <input required maxlength="100" type="email"
+                                                                                   class="form-control"
+                                                                                   id="email" name="email"
+                                                                                   placeholder="Email do Cliente"
+                                                                                   value="<?= $this->cliente->getEmail() ?>">
+                                                                        </div>
+                                                                        CPF <span class="text-red">*</span>
+                                                                        <div class="form-group">
+                                                                            <input required maxlength="11" type="number"
+                                                                                   class="form-control cpf"
+                                                                                   id="cpf" name="cpf"
+                                                                                   placeholder="CPF do Cliente"
+                                                                                   value="<?= $this->cliente->getCpf() ?>">
+                                                                        </div>
+                                                                        Data de Nascimento <span
+                                                                                class="text-red">*</span>
+                                                                        <div class="form-group">
+                                                                            <input required maxlength="10" type="text"
+                                                                                   class="form-control data"
+                                                                                   id="nascimento" name="nascimento"
+                                                                                   placeholder="Data de Nascimento do Cliente"
+                                                                                   value="<?= $this->cliente->getNascimento()->format('d/m/Y') ?>">
+                                                                        </div>
+                                                                        Telefone Fixo
+                                                                        <div class="form-group">
+                                                                            <input maxlength="13" type="text"
+                                                                                   class="form-control fixo"
+                                                                                   id="telefone_contato"
+                                                                                   name="telefone_contato"
+                                                                                   placeholder="Telefone do Cliente"
+                                                                                   value="<?= $this->cliente->getTelefoneContato() ?>">
+                                                                        </div>
+                                                                        Foto
+                                                                        <div class="form-group">
+                                                                            <input type="file" name="foto" id="foto"
+                                                                                   class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade <?php if (isset($this->actend)): ?>show active<?php endif; ?>" id="tabs-icons-text-2"
+                                                             role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                                                            <div class="row">
+
+                                                                <?php
+                                                                $enderecos = $this->cliente->getEndereco();
+                                                                if($enderecos->count() > 0):
+                                                                ?>
+                                                                <?php foreach ($enderecos as $endereco):?>
+                                                                <div class="card col-md-6">
+                                                                    <div class="card-body" style="height: 200px;">
+                                                                        <h4 class="card-title"><?= $endereco->getNome();?></h4>
+                                                                        <p class="card-text">
+                                                                            <h5>
+                                                                            <?= $endereco->getEndereco()?>, <?= $endereco->getNumero()?> - <?= $endereco->getComplemento()?>
+                                                                            </br>
+                                                                            <?= $endereco->getCep()?> - <?= $endereco->getBairro()?>
+                                                                            </br>
+                                                                            <?= $endereco->getCidade()->getNome()?>/<?= $endereco->getCidade()->getEstado()->getSigla()?>
+                                                                        </h5>
+                                                                        </p>
+                                                                        <a href="<?= $this->url('EnderecoEdita', ['clienteid' => $this->cliente->getId(),'id' => $endereco->getId()])?>" class="btn btn-primary">Editar</a>
+                                                                        <a href="#" class="btn btn-danger">Remover</a>
+                                                                    </div>
+                                                                </div>
+                                                                <?php endforeach;?>
+                                                                <?php endif;?>
+                                                                <div class="card col-md-6" style="border: #b2b2b2 dashed 2px;">
+                                                                    <a href="<?= $this->url('EnderecoCadastro', ['id' => $this->cliente->getId()])?>">
+                                                                    <div class="card-body p-6">
+                                                                        <div class="text-md-center">
+                                                                            <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                                                                            <p class="card-text text-primary">Novo Endereço</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col col-md-12">
+                                        </br>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success"><span
+                                                        class="fa fa-plus"></span> Editar Cliente
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?= $this->basePath('public/js/mascara.js'); ?>"></script>

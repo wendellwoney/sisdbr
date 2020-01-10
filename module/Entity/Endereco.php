@@ -63,7 +63,7 @@ class Endereco
 
     /**
      * Varios enderecos para um cliente
-     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="enderecos")
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="endereco")
      * @ORM\JoinColumn(name="clientes_id", referencedColumnName="id")
      */
     private $cliente;

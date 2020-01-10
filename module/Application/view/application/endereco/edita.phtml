@@ -1,0 +1,152 @@
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <div class="container-fluid">
+        <div class="h4 mb-0 text-uppercase d-none d-lg-inline-block">
+            <a class="text-white" href="<?= $this->url('ClienteLista') ?>">Cliente /</a> <a class="text-white" href="<?= $this->url('ClienteEditar', ['id'=>$this->cliente->getId()]) ?>"><?= $this->cliente->getNome()?> <span class="text-white">/ Cadastrar novo endereço</span></a>
+        </div>
+    </div>
+</nav>
+<div class="header bg-gradient-primary pb-5 pt-6 pt-md-0">
+</div>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="">
+            <div class="row mt-5">
+                <div class="col-xl-12">
+                    <?php if ($this->msgs): ?>
+                        <div class="alert alert-success" role="alert">
+                            <strong>Sucesso!</strong> <?= $this->msgs; ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($this->msge): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Erro!</strong> <?= $this->msge; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col col-md-12">
+                                    <h3 class="mb-0"><span class="fa fa-box"></span> Cadastro de Endereço</h3>
+                                </div>
+                            </div>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col col-md-1">
+                                        <?php
+                                        if (!empty($this->cliente->getFoto())):
+                                            ?>
+                                            <img style="width: 100px; height: 100px;"
+                                                 src="<?= $this->basePath('public/img/cliente/' . $this->cliente->getFoto()) ?>"
+                                                 class="avatar rounded-circle">
+                                        <?php else: ?>
+                                            <span style="width: 100px; height: 100px;"
+                                                  class="fa fa-user avatar rounded-circle"></span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="col col-md-11" style="left: 4%">
+                                        <h1><?= $this->cliente->getNome()?></h1>
+                                        <?= $this->cliente->getEmail()?></br>
+                                        <?= $this->cliente->getTelefoneCelular()?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-12">
+                                    </br>
+                                        Nome para o Endereço <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <input required maxlength="100" type="text"
+                                                   class="form-control"
+                                                   id="nome"
+                                                   name="nome"
+                                                   placeholder="Ex: Meu apt." value="<?= $this->endereco->getNome();?>">
+                                        </div>
+                                        Tipo de Endereço <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <select name="tipo" id="tipo"
+                                                    class="form-control" required>
+                                                <option <?php if ($this->endereco->getTipo() == '1'): ?> selected <?php endif; ?> value="1">Apartamento</option>
+                                                <option <?php if ($this->endereco->getTipo() == '2'): ?> selected <?php endif; ?> value="2">Casa</option>
+                                                <option <?php if ($this->endereco->getTipo() == '3'): ?> selected <?php endif; ?> value="3">Comercial</option>
+                                                <option <?php if ($this->endereco->getTipo() == '4'): ?> selected <?php endif; ?> value="4">Outros</option>
+                                            </select>
+                                        </div>
+                                        CEP <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <input onkeyup="retornaCep();" required maxlength="9" type="text"
+                                                   class="form-control cep"
+                                                   id="cep"
+                                                   name="cep"
+                                                   placeholder="00000-000" value="<?= $this->endereco->getCep();?>">
+                                        </div>
+                                        <div id="oculto">
+                                        Endereço <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <input readonly="" required maxlength="100" type="text"
+                                                   class="form-control"
+                                                   id="endereco"
+                                                   name="endereco"
+                                                   placeholder="Logradouro do endereço" value="<?= $this->endereco->getEndereco();?>">
+                                        </div>
+                                        Número <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <input required maxlength="11" type="number"
+                                                   class="form-control"
+                                                   id="numero"
+                                                   name="numero"
+                                                   placeholder="Número do endereço" value="<?= $this->endereco->getNumero();?>">
+                                        </div>
+                                        Complemento
+                                        <div class="form-group">
+                                            <input maxlength="50" type="text"
+                                                   class="form-control"
+                                                   id="complemento"
+                                                   name="complemento"
+                                                   placeholder="Complemento do endereço" value="<?= $this->endereco->getComplemento();?>">
+                                        </div>
+                                        Bairro <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <input readonly="readonly" required maxlength="50" type="text"
+                                                   class="form-control"
+                                                   id="bairro"
+                                                   name="bairro"
+                                                   placeholder="Bairro" value="<?= $this->endereco->getBairro();?>">
+                                        </div>
+                                        Cidade <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <input readonly="readonly" required maxlength="100" type="text"
+                                                   class="form-control"
+                                                   id="cidade"
+                                                   name="cidade"
+                                                   placeholder="Cidade" value="<?= $this->endereco->getCidade()->getNome();?>">
+                                        </div>
+                                        Estado <span class="text-red">*</span>
+                                        <div class="form-group">
+                                            <input readonly="readonly" required maxlength="2" type="text"
+                                                   class="form-control"
+                                                   id="estado"
+                                                   name="estado"
+                                                   placeholder="Estado" value="<?= $this->endereco->getCidade()->getEstado()->getSigla();?>">
+                                        </div>
+                                        </br>
+                                        <input type="hidden" name="ibge" id="ibge" value="<?= $this->endereco->getCidade()->getIbge();?>">
+                                        <input type="hidden" name="idcliente" id="idcliente" value="<?= $this->cliente->getId()?>">
+                                        <input type="hidden" name="id" id="id" value="<?= $this->endereco->getId()?>">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success"><span
+                                                    class="fa fa-plus"></span> Editar Endereço
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?= $this->basePath('public/js/mascara.js'); ?>"></script>
+<script src="<?= $this->basePath('public/js/cep.js'); ?>"></script>

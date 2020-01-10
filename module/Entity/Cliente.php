@@ -77,7 +77,7 @@ class Cliente
 
     /**
      * Um cliente tem varias enderecos
-     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="clientes")
+     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="cliente")
      */
     private $endereco;
 

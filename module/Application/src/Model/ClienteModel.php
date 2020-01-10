@@ -6,6 +6,7 @@ namespace Application\Model;
 
 use Doctrine\ORM\EntityManager;
 use Entity\Cliente;
+use Entity\Endereco;
 
 class ClienteModel implements IModel
 {
@@ -28,7 +29,7 @@ class ClienteModel implements IModel
 
     public function create($cliente)
     {
-        try{
+        try {
             $this->entityManager->beginTransaction();
             $this->entityManager->persist($cliente);
             $this->entityManager->flush();
@@ -40,14 +41,39 @@ class ClienteModel implements IModel
         }
     }
 
-    public function update($object)
+    public function update($cliente)
     {
-        // TODO: Implement update() method.
+        try {
+            $this->entityManager->beginTransaction();
+            $this->entityManager->merge($cliente);
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+            return 'Cliente editado com sucesso';
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao editar o cliente, por favor tente novamente mais tarde!');
+        }
     }
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        try {
+            $cliente = $this->get($id);
+            $this->entityManager->beginTransaction();
+            //Remover os Endereços do Cliente
+            if($cliente->getEndereco()->count() > 0){
+                $enderecoModel = new EnderecoModel($this->entityManager);
+                foreach ($cliente->getEndereco() as $endereco){
+                    $this->entityManager->remove($enderecoModel->get($endereco->getId()));
+                }
+            }
+            $this->entityManager->remove($cliente);
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+            //$this->entityManager->refresh($cliente);
+            return 'Cliente removido!';
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao remover o cliente, por favor tente novamente mais tarde!');
+        }
     }
 
 }
